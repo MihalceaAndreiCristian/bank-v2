@@ -1,0 +1,68 @@
+
+#boxforreg{
+    background-color: #73b2d0;
+    border-radius: 15px;
+    width: 33%;
+    text-align: center;
+    align-content: center;
+}
+
+
+#butonsave:hover{
+    box-shadow: 0 0 10px #3ee9e1;
+}
+#butonsave{
+    margin-left: 86%;
+    width: auto;
+    padding: 5px;
+}
+table{
+    width: 100%;
+    margin-top: 5%;
+    text-align: center;
+    justify-content: center;
+}
+
+
+.mb-3{
+    width: 30%;
+    display: inline-block;
+}
+#details{
+    font-size: large;
+    border-radius: 10px;
+    width: auto;
+    margin-top: 15px;
+    border: 3px #000000;
+    margin-right: 20%;
+    margin-left: 20%;
+}
+
+#details>tr{
+    margin-top: 3px;
+    margin-right: 3px;
+}
+
+
+
+#registerform{
+    width: auto;
+    margin-left: 20%;
+    margin-top: 20%;
+}
+
+#action1{
+    color: goldenrod;
+    background-color: rgba(182, 243, 218, 0.71);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15%;
+    border-radius: 15px;
+    text-align: center;
+}
+
+
+.form-group {
+    margin-bottom: 1rem;
+    margin-left: 23%;
+}
