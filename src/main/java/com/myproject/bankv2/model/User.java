@@ -16,6 +16,7 @@ import static javax.persistence.CascadeType.ALL;
 @Entity
 @Data
 @NoArgsConstructor
+@Table(name = "users")
 public class User {
 
     @Id
