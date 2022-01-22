@@ -33,7 +33,7 @@
         <th>Account number</th>
         <th>Currency</th>
         <th>Amount</th>
-        <th>Cards</th>
+        <th>Action</th>
         </thead>
         <tbody >
             <tr th:each="account:${accounts}">
@@ -42,8 +42,10 @@
                 <td th:text="${account.getCurrency()}"></td>
                 <td th:text="${account.getAmount()}"></td>
                 <td>
-                    <a th:href="@{/api/card/cards(accountNumber = ${account.getAccountNumber()})}"  class="btn btn-info btn-sm mb-3 "> Show</a>
+                    <a th:href="@{/api/card/cards(accountNumber = ${account.getAccountNumber()})}"  class="btn btn-info btn-sm mb-3 "> Cards</a>
+                    <a th:href="@{/api/account/delete(accountNumber = ${account.getAccountNumber()})}" class="btn btn-info btn-sm mb-3">Delete</a>
                 </td>
+
             </tr>
         </tbody>
     </table>
@@ -52,8 +54,9 @@
 
 </div>
 
-<hr>
-<a th:href ="@{/api/user/all}">Back to user list</a>
+<div>
+    <hr>
+    <a th:href ="@{/api/user/all}"  class="btn btn-danger btn-sm mb-3" style="margin-left: 35%">Back to user list</a>
+</div>
 </body>
-
 </html>

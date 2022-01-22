@@ -37,6 +37,7 @@
         <th>Activation date</th>
         <th>Expiration date</th>
         <th>CVV</th>
+        <th>Action</th>
         </thead>
         <tbody >
         <tr th:each="card:${cards}">
@@ -46,6 +47,10 @@
             <td th:text="${card.getActivationDate()}"></td>
             <td th:text="${card.getExpirationDate()}"></td>
             <td th:text="${card.getCvv()}"></td>
+            <td>
+                <a th:href="@{/api/card/delete(cardNumber = ${card.getCardNumber()})}" class="btn btn-info btn-sm mb-3"
+                   style="width: auto">Delete</a>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -54,10 +59,12 @@
 
 </div>
 
-<hr>
-<a th:href ="@{/api/user/all}">Back to user list</a>
-<div th:replace="fragments/footer :: footer">
+<div>
+    <hr>
+    <a th:href ="@{/api/user/all}"  class="btn btn-danger btn-sm mb-3" style="margin-left: 35%">Back to user list</a>
 </div>
+
+
 
 </body>
 

@@ -25,10 +25,10 @@ public class Card {
     private LocalDate activationDate;
     private LocalDate expirationDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
 
 

@@ -65,4 +65,9 @@ public class AccountController {
         return "add-account-form";
     }
 
+    @GetMapping("/delete")
+    public String delete(@RequestParam("accountNumber") String accountNumber){
+        accountService.deleteAccount(accountNumber);
+        return "action-done";
+    }
 }

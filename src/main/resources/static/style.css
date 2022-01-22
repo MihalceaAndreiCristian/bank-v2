@@ -7,6 +7,14 @@
     align-content: center;
 }
 
+.mycont{
+    width: 33%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    text-align: center;
+
+}
 
 #butonsave:hover{
     box-shadow: 0 0 10px #3ee9e1;
@@ -66,3 +74,5 @@ table{
     margin-bottom: 1rem;
     margin-left: 23%;
 }
+
+

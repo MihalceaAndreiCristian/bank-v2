@@ -13,22 +13,26 @@
 </div>
 
 <div class="container">
-    <h2> New account</h2>
+    <h2 style="margin-left: 30%; margin-top: 15px"> New account</h2>
     <form action="#" th:action="@{/api/account/create(username = ${user.getUsername()})}"
-          th:object="${account}" method="post">
+          th:object="${account}" method="post"  style="margin-top: 30px; margin-left: 25%">
         <label for="currency">Choose a currency: </label>
-        <select id="currency" name="currency" th:field="*{currency}">
-            <option value="euro"> Euro</option>
-            <option value="ron"> Ron</option>
-            <option value="usd"> USD</option>
-            <option value="yen"> Yeni</option>
-            <option value="lire"> GBP</option>
-        </select>
-        <button type="submit" class="btn btn-info col-2">New account</button>
+
+            <select id="currency" name="currency" th:field="*{currency}">
+                <option value="euro"> EURO</option>
+                <option value="ron"> Ron</option>
+                <option value="usd"> USD</option>
+                <option value="yen"> YEN</option>
+                <option value="lire"> GBP</option>
+            </select>
+
+        <button type="submit" class="btn btn-info col-2" style="margin-left: 10px">New account</button>
     </form>
 
+    <div>
     <hr>
-    <a th:href ="@{/api/user/all}">Back to user list</a>
+    <a th:href ="@{/api/user/all}"  class="btn btn-danger btn-sm mb-3" style="margin-left: 25%">Back to user list</a>
+    </div>
 </div>
 </body>
 </html>
