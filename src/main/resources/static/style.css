@@ -2,7 +2,7 @@
 #boxforreg{
     background-color: #73b2d0;
     border-radius: 15px;
-    width: 33%;
+    width: 40%;
     text-align: center;
     align-content: center;
 }
@@ -75,4 +75,7 @@ table{
     margin-left: 23%;
 }
 
+#card-details>th,td{
+    width: auto;
+}
 

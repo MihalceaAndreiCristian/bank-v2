@@ -13,9 +13,9 @@
 </div>
 
 <div class="container">
-    <h2> Update user profile</h2>
+    <h2 > Update user profile</h2>
 <form action="#" th:action="@{/api/user/save}"
-      th:object="${user}" method="post" class="justify-content-center">
+      th:object="${user}" method="post" class="justify-content-center" style="margin-left: 40%; width: auto">
     <input type="text" th:field="*{firstName}"
            class="form-control mb-4 col-4" placeholder="First name">
     <input type="text" th:field="*{lastName}"
@@ -29,11 +29,15 @@
     <button type="submit" class="btn btn-info col-2">Save</button>
     <a th:href="@{/api/user/delete(username = ${user.username})}"
        th:method="delete" class="btn btn-danger col-2"> Delete</a>
+
+
+    <div class="mb-4 col-4">
+        <hr>
+        <a th:href ="@{/api/user/all}"  class="btn btn-danger " style="margin-left: 15%;margin-right: 15%;
+            " >Back to user list</a>
+    </div>
 </form>
 
-
-    <hr>
-    <a th:href ="@{/api/user/all}">Back to user list</a>
 </div>
 </body>
 </html>
