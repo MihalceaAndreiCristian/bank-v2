@@ -4,6 +4,7 @@ import com.myproject.bankv2.dto.AccountDTO;
 import com.myproject.bankv2.exceptions.AccountNotFoundException;
 import com.myproject.bankv2.exceptions.UserNotFoundException;
 import com.myproject.bankv2.model.Account;
+import com.myproject.bankv2.model.Card;
 import com.myproject.bankv2.model.User;
 import com.myproject.bankv2.repository.account.AccountRepository;
 import com.myproject.bankv2.repository.user.UserRepository;
@@ -30,6 +31,7 @@ public class AccountService {
     public List<AccountDTO> getAccounts(){
         List<AccountDTO> result = new ArrayList<>();
         List<Account> accounts = accountRepository.getAllAccounts();
+
         accounts.forEach(account -> result.add(new AccountDTO(account)));
         if (!result.isEmpty()) {
             return result;
@@ -40,6 +42,7 @@ public class AccountService {
     public List<AccountDTO> getByUser(String username){
         User user = userRepository.getUserByUsername(username);
         List<Account> accounts = accountRepository.getByUser(user);
+        accounts.stream().forEach(account -> account.setAmount(account.getCards().stream().mapToDouble(Card::getAmount).sum()));
         List<AccountDTO> result = new ArrayList<>();
         accounts.forEach(account -> result.add(new AccountDTO(account)));
         return result;
@@ -47,6 +50,7 @@ public class AccountService {
 
     public Account getAccountByAccountNumber(String accountNumber){
         Account result = accountRepository.getAccountByAccountNumber(accountNumber);
+
         if (result == null){
             throw new AccountNotFoundException("Account not found");
         }
@@ -66,7 +70,11 @@ public class AccountService {
         account.setCurrency(account.getCurrency().toUpperCase().substring(0,3));
         account.setAccountNumber(Utilities.generateBankAccount(account.getCurrency()));
         account.setAccountCreatedAt(LocalDateTime.now());
-        account.setAmount(50);
+        if (account.getCards().isEmpty()){
+            account.setAmount(0);
+        }else {
+            account.setAmount(account.getCards().stream().mapToDouble(Card::getAmount).sum());
+        }
         Account searchAccount = accountRepository.getAccountByAccountNumber(account.getAccountNumber());;
         while (searchAccount != null){
             account.setAccountNumber(Utilities.generateBankAccount(account.getCurrency()));

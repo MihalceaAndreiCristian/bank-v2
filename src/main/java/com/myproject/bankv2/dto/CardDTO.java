@@ -14,6 +14,7 @@ public class CardDTO {
     private String userFirstName;
     private LocalDate activationDate;
     private LocalDate expirationDate;
+    private double amount;
 
     public CardDTO(Card card) {
         this.cardNumber = card.getCardNumber();
@@ -22,5 +23,6 @@ public class CardDTO {
         this.userFirstName = card.getUser().getFirstName();
         this.activationDate = card.getActivationDate();
         this.expirationDate = card.getExpirationDate();
+        this.amount = card.getAmount();
     }
 }

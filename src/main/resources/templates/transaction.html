@@ -1,0 +1,89 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Accounts</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link th:href="@{/style.css}" rel="stylesheet"/>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</head>
+<body>
+<div th:replace="fragments/menu :: menu">
+</div>
+
+
+<div >
+    <div style="margin-top: 10px" th:with="card =${card}">
+        <a  th:href="@{/api/card/card-details(cardNumber = ${card.getCardNumber()})}"
+            class="btn btn-outline-dark">
+            Back
+        </a>
+    </div>
+<div class="container mb5" th:with="card =${card}">
+<div style="margin-left: 30%; width: 33%">
+    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="width: 100%">
+        Add Money
+    </button>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel" style="margin-left: 25%;color: black ">Add money</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/api/card/add-money(cardNumber = ${card.getCardNumber()})}" th:object="${card}"
+                          method="post" >
+                        <input type="number"  placeholder="Add money" th:field="*{amount}">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                    </form>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div style="margin-left: 30%; width: 33%; margin-top: 15px; margin-bottom: 15px">
+        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop1" style="width: 100%">
+            Withdraw Money
+        </button>
+        <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel1" style="margin-left: 25%;color: black ">Withdraw money</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form th:action="@{/api/card/withdraw-money(cardNumber = ${card.getCardNumber()})}" th:object="${card}"
+                              method="post" >
+                            <input type="number"  placeholder="Add money" th:field="*{amount}">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                        </form>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+</div>
+
+<div>
+    <hr>
+    <a th:href ="@{/api/user/all}"  class="btn btn-danger btn-sm mb-3" style="margin-left: 35%">Back to user list</a>
+</div>
+
+
+
+</body>
+
+</html>
