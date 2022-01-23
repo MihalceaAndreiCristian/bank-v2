@@ -28,15 +28,12 @@
         </a>
     </div>
 
-    <div style="margin-left: 20px; margin-right: 20px">
-    <table  class="table table-striped table-dark center" >
+    <div style="margin-left: 20px; margin-right: 35px">
+    <table id="card-details" class="table table-striped table-dark center" >
         <thead>
         <th>User name</th>
         <th>Account number</th>
         <th>Card number</th>
-        <th>Activation date</th>
-        <th>Expiration date</th>
-        <th>CVV</th>
         <th>Action</th>
         </thead>
         <tbody >
@@ -44,12 +41,11 @@
             <td th:text="${card.getUserFirstName()}"></td>
             <td th:text="${card.getAccountNumber()}"></td>
             <td th:text="${card.getCardNumber()}"></td>
-            <td th:text="${card.getActivationDate()}"></td>
-            <td th:text="${card.getExpirationDate()}"></td>
-            <td th:text="${card.getCvv()}"></td>
             <td>
-                <a th:href="@{/api/card/delete(cardNumber = ${card.getCardNumber()})}" class="btn btn-info btn-sm mb-3"
-                   style="width: auto">Delete</a>
+                <a th:href="@{/api/card/card-details(cardNumber = ${card.getCardNumber()})}" class="btn btn-info btn-sm mb-3"
+                   style="width: auto">Details</a>
+                <a th:href="@{/api/card/delete(cardNumber = ${card.getCardNumber()})}" class="btn btn-danger btn-sm mb-3"
+                style="width: auto">Delete</a>
             </td>
         </tr>
         </tbody>

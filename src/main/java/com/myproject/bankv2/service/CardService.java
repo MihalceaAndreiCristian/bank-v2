@@ -79,9 +79,7 @@ public class CardService {
         );
     }
 
-    public void changePin(CardDTO cardDTO, int pin) {
-        Card card = cardRepository.getCardByCardNumber(cardDTO.getCardNumber());
-        card.setPin(pin);
+    public void changePin(Card card ) {
         cardRepository.saveCard(card);
     }
 
@@ -91,5 +89,10 @@ public class CardService {
         List<CardDTO> result = new ArrayList<>();
         cards.forEach(card -> result.add(new CardDTO(card)));
         return result;
+    }
+
+    public Card getCardByCardNumber(String cardNumber){
+        return cardRepository.getCardByCardNumber(cardNumber);
+
     }
 }

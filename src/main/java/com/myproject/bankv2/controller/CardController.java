@@ -7,13 +7,11 @@ import com.myproject.bankv2.model.User;
 import com.myproject.bankv2.service.AccountService;
 import com.myproject.bankv2.service.CardService;
 import com.myproject.bankv2.service.UserService;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -78,5 +76,29 @@ public class CardController {
         cardService.closeCard(cardNumber);
         return "action-done";
     }
+
+    @GetMapping("/card-details")
+    public String getDetailsOfCard(@RequestParam("cardNumber")String cardNumber, Model model){
+        Card card = cardService.getCardByCardNumber(cardNumber);
+        Account account = accountService.getAccountByAccountNumber(card.getAccount().getAccountNumber());
+        model.addAttribute("account",account);
+        model.addAttribute("card",card);
+        return "card-actions";
+    }
+
+
+
+    @PostMapping("/change-pin")
+    public String popUpPinChange(@RequestParam("cardNumber") String cardNumber,@ModelAttribute("card") Card card, Model model){
+        Card card1 = cardService.getCardByCardNumber(cardNumber);
+        Account account = accountService.getAccountByAccountNumber(card1.getAccount().getAccountNumber());
+        model.addAttribute("account",account);
+        model.addAttribute("card",card1);
+        card1.setPin(card.getPin());
+        cardService.changePin(card1);
+        return "card-actions";
+    }
+
+
 
 }
