@@ -32,13 +32,14 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/home").permitAll()
+                .antMatchers("/", "/home","/api/user/formForAdd").permitAll()
                 .antMatchers("/api/card/**", "/api/account/**", "/api/user/**").hasAnyAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
+                .defaultSuccessUrl("/api/user/all")
                 .and()
                 .logout()
                 .permitAll();
