@@ -67,6 +67,7 @@ public class CardService {
             card.setExpirationDate(card.getActivationDate().plusYears(4));
             card.setCardNumber(Utilities.generateCardNumber());
             card.setPin(Utilities.randomNumber(1000, 9999));
+            card.setAmount(0);
             cardRepository.saveCard(card);
         } else {
             throw new IllegalArgumentException();
@@ -93,6 +94,9 @@ public class CardService {
 
     public Card getCardByCardNumber(String cardNumber){
         return cardRepository.getCardByCardNumber(cardNumber);
+    }
 
+    public void addMoney(Card card){
+        cardRepository.saveCard(card);
     }
 }

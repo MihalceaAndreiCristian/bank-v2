@@ -58,6 +58,7 @@ public class UserService {
         }
         user.setUserCreatedAt(LocalDateTime.now());
         repository.saveUser(user);
+
     }
 
     public void delete(String username){

@@ -31,6 +31,7 @@
             <th>Activation date</th>
             <th>Expiration date</th>
             <th>CVV</th>
+            <th>Amount</th>
             </thead>
             <tbody >
             <tr th:each="card:${cards}">
@@ -40,6 +41,7 @@
                 <td th:text="${card.getActivationDate()}"></td>
                 <td th:text="${card.getExpirationDate()}"></td>
                 <td th:text="${card.getCvv()}"></td>
+                <td th:text="${card.getAmount()}"></td>
             </tr>
             </tbody>
         </table>

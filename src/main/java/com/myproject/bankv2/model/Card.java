@@ -31,6 +31,8 @@ public class Card {
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
 
+    private double amount;
+
 
     public Card(User user, Account account) {
         this.cardNumber = Utilities.generateCardNumber();

@@ -54,6 +54,10 @@
                 <td th:text="${card.getPin()}"></td>
             </tr>
             <tr>
+                <td>Amount</td>
+                <td th:text="${card.getAmount()}"></td>
+            </tr>
+            <tr>
                 <td>
                     <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                         Change pin
@@ -64,7 +68,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel" style="margin-left: 25%">Change card pin</h5>
+                                    <h5 class="modal-title" id="staticBackdropLabel" style="margin-left: 25%;color: black ">Change card pin</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -75,14 +79,13 @@
                                         <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
                                     </form>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
                 </td>
                 <td>
-
+                    <a th:href="@{/api/card/transaction(cardNumber = ${card.getCardNumber()})}" class="btn btn-danger "
+                       style="width: auto">Transactions</a>
                 </td>
             </tr>
             </tbody>
