@@ -14,4 +14,9 @@ public class MainPage {
     public String showLogin(){
         return "login";
     }
+
+    @GetMapping("/master")
+    public String getMasterPage(){
+        return "master-page";
+    }
 }
