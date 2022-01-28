@@ -125,7 +125,9 @@ public class CardController {
         model.addAttribute("account", account);
         model.addAttribute("card", card);
         model.addAttribute("card1", card1);
-        card.setAmount((card.getAmount()) - (card1.getAmount()));
+        if (card1.getAmount() < card.getAmount()) {
+            card.setAmount((card.getAmount()) - (card1.getAmount()));
+        }
         cardService.addMoney(card);
         return "card-actions";
     }

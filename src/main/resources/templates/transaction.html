@@ -36,10 +36,9 @@
                 <div class="modal-body">
                     <form th:action="@{/api/card/add-money(cardNumber = ${card.getCardNumber()})}" th:object="${card}"
                           method="post" >
-                        <input type="number"  placeholder="Add money" th:field="*{amount}">
+                        <input type="number"  placeholder="Add money"  th:field="*{amount}">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
-                    </form>
                     </form>
                 </div>
             </div>
