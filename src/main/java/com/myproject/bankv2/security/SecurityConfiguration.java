@@ -37,12 +37,13 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/login").usernameParameter("username").passwordParameter("password")
                 .defaultSuccessUrl("/api/user/all",true)
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();
+                .permitAll()
+                .and().logout().permitAll().and().exceptionHandling().accessDeniedPage("/403");
     }
 
     @Bean
