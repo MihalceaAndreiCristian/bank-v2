@@ -2,14 +2,13 @@ package com.myproject.bankv2.service;
 
 import com.myproject.bankv2.dto.CardDTO;
 import com.myproject.bankv2.exceptions.AccountNotFoundException;
-import com.myproject.bankv2.exceptions.CardNotFoundException;
 import com.myproject.bankv2.exceptions.UserNotFoundException;
 import com.myproject.bankv2.model.Account;
 import com.myproject.bankv2.model.Card;
 import com.myproject.bankv2.model.User;
-import com.myproject.bankv2.repository.account.AccountRepository;
-import com.myproject.bankv2.repository.card.CardRepository;
-import com.myproject.bankv2.repository.user.UserRepository;
+import com.myproject.bankv2.repository.AccountRepository;
+import com.myproject.bankv2.repository.CardRepository;
+import com.myproject.bankv2.repository.UserRepository;
 import com.myproject.bankv2.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,33 +18,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CardService {
+public class CardServiceImpl {
 
     private final CardRepository cardRepository;
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
 
     @Autowired
-    public CardService(CardRepository cardRepository, AccountRepository accountRepository, UserRepository userRepository) {
+    public CardServiceImpl(CardRepository cardRepository,
+                           AccountRepository accountRepository,
+                           UserRepository userRepository) {
         this.cardRepository = cardRepository;
         this.accountRepository = accountRepository;
         this.userRepository = userRepository;
     }
 
-    public List<CardDTO> getAllCards() {
-        List<CardDTO> result = new ArrayList<>();
-        List<Card> cards = cardRepository.getAllCards();
-        cards.stream().forEach(card -> result.add(new CardDTO(card)));
-        if (!result.isEmpty()) {
-            return result;
-        }
-        throw new CardNotFoundException("No cards in data base");
-    }
-
     public List<CardDTO> getCardsByAccount(String accountNumber) {
         List<CardDTO> result = new ArrayList<>();
-        Account account = accountRepository.getAccountByAccountNumber(accountNumber);
-        List<Card> cards = cardRepository.getCardsByAccount(account);
+        Account account = accountRepository.findByAccountNumber(accountNumber);
+        List<Card> cards = cardRepository.getByAccount(account);
         cards.forEach(card -> result.add(new CardDTO(card)));
         return result;
     }
@@ -56,11 +47,11 @@ public class CardService {
         if (user == null) {
             throw new UserNotFoundException();
         }
-        Account account = accountRepository.getAccountById(card.getAccount().getId());
+        Account account = accountRepository.findById(card.getAccount().getId());
         if (account == null) {
             throw new AccountNotFoundException("Account not found");
         }
-        Card foundCard = cardRepository.getCardByCardNumber(card.getCardNumber());
+        Card foundCard = cardRepository.findByCardNumber(card.getCardNumber());
         if (foundCard == null) {
             card.setCvv(Utilities.randomNumberCCV(1, 999));
             card.setActivationDate(LocalDate.now());
@@ -68,35 +59,34 @@ public class CardService {
             card.setCardNumber(Utilities.generateCardNumber());
             card.setPin(Utilities.randomNumber(1000, 9999));
             card.setAmount(0);
-            cardRepository.saveCard(card);
+            cardRepository.save(card);
         } else {
             throw new IllegalArgumentException();
         }
     }
 
     public void closeCard(String cardNumber) {
-        cardRepository.deleteCard(
-                cardRepository.getCardByCardNumber(cardNumber).getId()
-        );
+        cardRepository.delete(
+                cardRepository.findByCardNumber(cardNumber));
     }
 
     public void changePin(Card card ) {
-        cardRepository.saveCard(card);
+        cardRepository.save(card);
     }
 
 
     public List<CardDTO> getCardsByUser(User user){
-        List<Card> cards = cardRepository.getCardsByUser(user);
+        List<Card> cards = cardRepository.getByUser(user);
         List<CardDTO> result = new ArrayList<>();
         cards.forEach(card -> result.add(new CardDTO(card)));
         return result;
     }
 
     public Card getCardByCardNumber(String cardNumber){
-        return cardRepository.getCardByCardNumber(cardNumber);
+        return cardRepository.findByCardNumber(cardNumber);
     }
 
     public void addMoney(Card card){
-        cardRepository.saveCard(card);
+        cardRepository.save(card);
     }
 }

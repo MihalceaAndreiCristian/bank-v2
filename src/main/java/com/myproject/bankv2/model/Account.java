@@ -34,12 +34,8 @@ public class Account {
 
     private double amount;
 
-
-
     public Account(User user, String currency) {
         this.currency = currency;
         this.user = user;
     }
-
-
 }

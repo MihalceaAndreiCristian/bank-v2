@@ -3,9 +3,8 @@ package com.myproject.bankv2.controller;
 import com.myproject.bankv2.dto.AccountDTO;
 import com.myproject.bankv2.model.Account;
 import com.myproject.bankv2.model.User;
-import com.myproject.bankv2.service.AccountService;
-import com.myproject.bankv2.service.UserService;
-import org.dom4j.rule.Mode;
+import com.myproject.bankv2.service.AccountServiceImpl;
+import com.myproject.bankv2.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +16,11 @@ import java.util.List;
 @RequestMapping("/api/account")
 public class AccountController {
 
-    private final AccountService accountService;
-    private final UserService userService;
+    private final AccountServiceImpl accountService;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public AccountController(AccountService accountService, UserService userService) {
+    public AccountController(AccountServiceImpl accountService, UserServiceImpl userService) {
         this.accountService = accountService;
         this.userService = userService;
     }

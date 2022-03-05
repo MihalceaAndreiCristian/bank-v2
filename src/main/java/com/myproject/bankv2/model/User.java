@@ -24,10 +24,8 @@ public class User {
     @Column(name = "id", nullable = false)
     private int id;
 
-//    @NotBlank(message = "Provide an username")
     private String username;
 
-//    @NotBlank(message = "Provide a password")
     private String password;
 
     @NotBlank(message = "Provide a email")

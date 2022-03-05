@@ -3,7 +3,7 @@ package com.myproject.bankv2.service;
 import com.myproject.bankv2.dto.UserDTO;
 import com.myproject.bankv2.exceptions.InvalidUserDataException;
 import com.myproject.bankv2.model.User;
-import com.myproject.bankv2.repository.user.UserRepository;
+import com.myproject.bankv2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,18 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserServiceImpl {
 
     private final UserRepository repository;
 
     @Autowired
-    public UserService(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
     }
 
     public List<UserDTO> getUsers(){
         List<UserDTO> result = new ArrayList<>();
-        List<User> users = repository.getAllUsers();
+        List<User> users = repository.findAll();
         users.forEach(user ->
                 {
                     if(user.getFullName() == null ) {
@@ -40,34 +40,34 @@ public class UserService {
     }
 
     public User getUser(String username){
-        return repository.getUserByUsername(username);
+        return repository.findByUsername(username);
     }
 
     public UserDTO getUserByUsername(String username){
-        return new UserDTO(repository.getUserByUsername(username));
+        return new UserDTO(repository.findByUsername(username));
     }
 
     public UserDTO getUserByEmail(String email){
-        return new UserDTO(repository.getUserByEmail(email));
+        return new UserDTO(repository.findByEmail(email));
     }
 
     public void saveUser(User user){
-        User foundUser= repository.getUserByUsername(user.getUsername());
+        User foundUser= repository.findByUsername(user.getUsername());
         if (foundUser != null){
             throw new InvalidUserDataException();
         }
         user.setUserCreatedAt(LocalDateTime.now());
-        repository.saveUser(user);
+        repository.save(user);
 
     }
 
     public void delete(String username){
-       User foundUser= repository.getUserByUsername(username);
-       repository.deleteUser(foundUser.getId());
+       User foundUser= repository.findByUsername(username);
+       repository.deleteById(foundUser.getId());
     }
 
     public void updateUser(User user){
-        User foundUser = repository.getUserByUsername(user.getUsername());
+        User foundUser = repository.findByUsername(user.getUsername());
         foundUser.setFirstName(user.getFirstName());
         foundUser.setLastName(user.getLastName());
         foundUser.setBirthDate(user.getBirthDate());
@@ -77,8 +77,7 @@ public class UserService {
         if (foundUser.getUserCreatedAt() == null){
             foundUser.setUserCreatedAt(LocalDateTime.now());
         }
-        repository.saveUser(foundUser);
+        repository.save(foundUser);
     }
-
 
 }

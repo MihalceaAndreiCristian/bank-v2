@@ -5,7 +5,7 @@ import com.myproject.bankv2.model.User;
 import com.myproject.bankv2.security.auth.model.Authority;
 import com.myproject.bankv2.security.auth.model.Users;
 import com.myproject.bankv2.security.auth.repository.users.UsersRepository;
-import com.myproject.bankv2.service.UserService;
+import com.myproject.bankv2.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -19,12 +19,12 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
 
-    private final UserService service;
+    private final UserServiceImpl service;
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService service, UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
+    public UserController(UserServiceImpl service, UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
         this.service = service;
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
@@ -32,9 +32,9 @@ public class UserController {
 
     @GetMapping("/all")
     public String getAllUsers(Model model) {
-        List<UserDTO> users =  service.getUsers();
+        List<UserDTO> users = service.getUsers();
 
-        model.addAttribute("users",users);
+        model.addAttribute("users", users);
         return "user-list";
     }
 
@@ -43,38 +43,32 @@ public class UserController {
     public String getUser(@RequestParam String username, Model model) {
 
         UserDTO user = service.getUserByUsername(username);
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "user-details";
 
     }
 
     @GetMapping("/formForAdd")
-    public String createUser(Model model){
+    public String createUser(Model model) {
         User user = new User();
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "register-form";
     }
 
     @PostMapping("/add")
-    private String saveUser(@ModelAttribute("user") User user){
+    private String saveUser(@ModelAttribute("user") User user) {
 
         Users users = new Users();
         users.setUsername(user.getUsername());
         users.setPassword(passwordEncoder.encode(user.getPassword()));
-        users.setEnabled( true);
-
-
+        users.setEnabled(true);
         Authority authority = new Authority();
         List<Authority> authorities = new ArrayList<>();
         authority.setAuthority("USER");
         authority.setUsername(users);
-
         authorities.add(authority);
-
         users.setAuthority(authorities);
-
         usersRepository.saveUsers(users);
-
         service.saveUser(user);
         return "action-done";
     }
@@ -86,16 +80,15 @@ public class UserController {
     }
 
     @GetMapping("/update")
-    public String updateUserForm(@RequestParam("username") String username,Model model){
+    public String updateUserForm(@RequestParam("username") String username, Model model) {
         User user = service.getUser(username);
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "update-user";
     }
 
 
-
     @PostMapping("/save")
-    public String updateUserForm1(@ModelAttribute("user") User user){
+    public String updateUserForm1(@ModelAttribute("user") User user) {
         service.updateUser(user);
         return "action-done";
     }

@@ -6,8 +6,8 @@ import com.myproject.bankv2.exceptions.UserNotFoundException;
 import com.myproject.bankv2.model.Account;
 import com.myproject.bankv2.model.Card;
 import com.myproject.bankv2.model.User;
-import com.myproject.bankv2.repository.account.AccountRepository;
-import com.myproject.bankv2.repository.user.UserRepository;
+import com.myproject.bankv2.repository.AccountRepository;
+import com.myproject.bankv2.repository.UserRepository;
 import com.myproject.bankv2.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,21 +17,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AccountService {
+public class AccountServiceImpl {
 
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
 
     @Autowired
-    public AccountService(AccountRepository repository, UserRepository userRepository) {
+    public AccountServiceImpl(AccountRepository repository, UserRepository userRepository) {
         this.accountRepository = repository;
         this.userRepository = userRepository;
     }
 
     public List<AccountDTO> getAccounts(){
         List<AccountDTO> result = new ArrayList<>();
-        List<Account> accounts = accountRepository.getAllAccounts();
-
+        List<Account> accounts = accountRepository.findAll();
         accounts.forEach(account -> result.add(new AccountDTO(account)));
         if (!result.isEmpty()) {
             return result;
@@ -40,32 +39,26 @@ public class AccountService {
     }
 
     public List<AccountDTO> getByUser(String username){
-        User user = userRepository.getUserByUsername(username);
-        List<Account> accounts = accountRepository.getByUser(user);
-        accounts.stream().forEach(account -> account.setAmount(account.getCards().stream().mapToDouble(Card::getAmount).sum()));
+        User user = userRepository.findByUsername(username);
+        List<Account> accounts = accountRepository.findByUser(user);
+        accounts.stream().forEach(account ->
+                account.setAmount(account.getCards().stream().mapToDouble(Card::getAmount).sum()));
         List<AccountDTO> result = new ArrayList<>();
         accounts.forEach(account -> result.add(new AccountDTO(account)));
         return result;
     }
 
     public Account getAccountByAccountNumber(String accountNumber){
-        Account result = accountRepository.getAccountByAccountNumber(accountNumber);
-
+        Account result = accountRepository.findByAccountNumber(accountNumber);
         if (result == null){
             throw new AccountNotFoundException("Account not found");
         }
         return result;
     }
 
-    public AccountDTO getAccountById(int id){
-        return new AccountDTO(accountRepository.getAccountById(id));
-    }
-
     public void createAccount(Account account){
         User user = userRepository.findById(account.getUser().getId());
-        if (user == null){
-            throw new UserNotFoundException();
-        }
+        if (user == null){  throw new UserNotFoundException();  }
         account.setUser(user);
         account.setCurrency(account.getCurrency().toUpperCase().substring(0,3));
         account.setAccountNumber(Utilities.generateBankAccount(account.getCurrency()));
@@ -75,21 +68,17 @@ public class AccountService {
         }else {
             account.setAmount(account.getCards().stream().mapToDouble(Card::getAmount).sum());
         }
-        Account searchAccount = accountRepository.getAccountByAccountNumber(account.getAccountNumber());;
+        Account searchAccount = accountRepository.findByAccountNumber(account.getAccountNumber());;
         while (searchAccount != null){
             account.setAccountNumber(Utilities.generateBankAccount(account.getCurrency()));
-            searchAccount = accountRepository.getAccountByAccountNumber(account.getAccountNumber());
+            searchAccount = accountRepository.findByAccountNumber(account.getAccountNumber());
         }
-        accountRepository.saveAccount(account);
+        accountRepository.save(account);
     }
-
 
     public void deleteAccount(String accountNumber){
-        accountRepository.deleteAccount(
-                accountRepository.getAccountByAccountNumber(accountNumber)
-                        .getId()
+        accountRepository.delete(
+                accountRepository.findByAccountNumber(accountNumber)
         );
     }
-
-
 }

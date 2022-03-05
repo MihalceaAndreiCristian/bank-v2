@@ -4,10 +4,9 @@ import com.myproject.bankv2.dto.CardDTO;
 import com.myproject.bankv2.model.Account;
 import com.myproject.bankv2.model.Card;
 import com.myproject.bankv2.model.User;
-import com.myproject.bankv2.service.AccountService;
-import com.myproject.bankv2.service.CardService;
-import com.myproject.bankv2.service.UserService;
-import org.dom4j.rule.Mode;
+import com.myproject.bankv2.service.AccountServiceImpl;
+import com.myproject.bankv2.service.CardServiceImpl;
+import com.myproject.bankv2.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,12 +19,12 @@ import java.util.List;
 public class CardController {
 
 
-    private final CardService cardService;
-    private final AccountService accountService;
-    private final UserService userService;
+    private final CardServiceImpl cardService;
+    private final AccountServiceImpl accountService;
+    private final UserServiceImpl userService;
 
     @Autowired
-    public CardController(CardService cardService, AccountService accountService, UserService userService) {
+    public CardController(CardServiceImpl cardService, AccountServiceImpl accountService, UserServiceImpl userService) {
         this.cardService = cardService;
         this.accountService = accountService;
         this.userService = userService;
@@ -37,8 +36,6 @@ public class CardController {
         List<CardDTO> cards = cardService.getCardsByAccount(accountNumber);
         Account account = accountService.getAccountByAccountNumber(accountNumber);
         model.addAttribute("account", account);
-//        User user = userService.getUser(account.getUser().getUsername());
-//        model.addAttribute("user",user);
         if (!cards.isEmpty()) {
             model.addAttribute("cards", cards);
         }
